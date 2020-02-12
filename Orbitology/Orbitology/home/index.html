@@ -41,7 +41,8 @@ $(function() {
 
 /*User Entered Variables*/
                 var eccentricity = Number($("#eccentricity").val()); /*sets variable for eccentricity*/
-                var semimajor = Number($("#semimajor").val()); /*sets variable for semimajor axis in km*/
+                //var semimajor = Number($("#semimajor").val()); /*sets variable for semimajor axis in km*/
+		var altitude = Number($("#altitude").val()); /*sets variable for altitude in km*/
                 var inclination = Number($("#inclination").val()); /*sets variable for inclination in degrees*/
                 var longAscNode = Number($("#longAscNode").val()); /*sets variable for longAscNode in degrees*/
                 var argOfPeriapsis = Number($("#argOfPeriapsis").val()); /*sets variable for argOfPeriapsis in degrees*/
@@ -50,8 +51,9 @@ $(function() {
                 var regard = Number($("#regard").val()); /*sets variable for field of regard in degrees*/
                 var overlap = Number($("#overlap").val()); /*sets variable for sensor overlap in degrees*/
 		
+		
 /*Calculations*/
-		var alt = parseInt(semimajor) - parseInt(earthRadius); /*Finds the altitude*/
+		var semimajor = parseInt(altitude) + parseInt(earthRadius); /*Finds the semimajor axis*/
 		var orbitalV = (Math.sqrt(GM / semimajor)).toFixed(4); /*Finds the orbital velocity*/
 		var orbitalVmph = Math.round(orbitalV * 2236.93381); /*Finds the orbital velocity in mph*/
 		var oPeriod = Math.round(((2 * Math.PI) * semimajor / orbitalV)); /*Finds the orbital period*/
