@@ -1,0 +1,794 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Timothy Mudge">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <title>Orbitology</title>
+    <link rel="icon" href="../images/smdc.png">
+
+    <!-- Bootstrap 4.0 CSS compiled and minified -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Font Awesome icons (see: https://fontawesome.com/icons?d=gallery) -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    <!-- Custom styles and overrides -->
+    <link href="../stylesheets/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.css">
+    <link href="../stylesheets/Mudge.css" rel="stylesheet">
+
+    <script src="../js/jquery-3.4.1.js"></script>
+
+    <script src="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="../jquery-validation-1.19.1/dist/jquery.validate.min.js"></script>
+    <script src="../jquery-timepicker-1.3.5/jquery.timepicker.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="../jquery-timepicker-1.3.5/jquery.timepicker.css" />
+    <link href="../stylesheets/jquery_overwrite.css" rel="stylesheet">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+
+
+    <script>
+        "use strict";
+
+        $(function() {
+
+
+            $("#orbit").submit(function(e) {
+                e.preventDefault();
+
+                /*Earth Standard Variables*/
+                var GM = 398600; /*Standard gravitational parameter of Earth (μ = G*M) km3s-2*/
+                var earthRadius = 6378;
+                var earthCircum = 2 * Math.PI * earthRadius;
+
+                /*User Entered Variables*/
+                var eccentricity = Number($("#eccentricity").val()); /*sets variable for eccentricity*/
+                //var semimajor = Number($("#semimajor").val()); /*sets variable for semimajor axis in km*/
+                var altitude = Number($("#altitude").val()); /*sets variable for altitude in km*/
+                var inclination = Number($("#inclination").val()); /*sets variable for inclination in degrees*/
+                var longAscNode = Number($("#longAscNode").val()); /*sets variable for longAscNode in degrees*/
+                var argOfPeriapsis = Number($("#argOfPeriapsis").val()); /*sets variable for argOfPeriapsis in degrees*/
+                var trueAnomaly = Number($("#trueAnomaly").val()); /*sets variable for trueAnomaly in degrees*/
+                var epochDate = Number($("#epochDate").val()); /*sets variable for epoch in day:month:year, hh:mm:tz*/
+                var epochTime = Number($("#epochTime").val()); /*sets variable for epoch in day:month:year, hh:mm:tz*/
+                var regard = Number($("#regard").val()); /*sets variable for field of regard in degrees*/
+                var overlap = Number($("#overlap").val()); /*sets variable for sensor overlap in degrees*/
+                var latitude = Number($("#latitude").val()); /*sets variable for sensor latitude in degrees*/
+                var longitude = Number($("#longitude").val()); /*sets variable for sensor longitude in degrees*/
+
+                /*Calculations*/
+                var semimajor = parseInt(altitude) + parseInt(earthRadius); /*Finds the semimajor axis*/
+                //var alt = parseInt(semimajor) - parseInt(earthRadius); /*Finds the altitude*/
+                var orbitalV = (Math.sqrt(GM / semimajor)).toFixed(4); /*Finds the orbital velocity*/
+                var orbitalVmph = Math.round(orbitalV * 2236.93381); /*Finds the orbital velocity in mph*/
+                var oPeriod = Math.round(((2 * Math.PI) * semimajor / orbitalV)); /*Finds the orbital period*/
+                var maxEarthCentAngRad = Math.acos((earthRadius / semimajor)); /*Finds the maximum Earth Central Angle*/
+                var maxEarthCentAngDeg = (maxEarthCentAngRad * (180 / Math.PI)).toFixed(4); /*Converts maxEarthCentAng to degrees from radians*/
+                var nadirAngle = (Number($("#regard").val()) / 2); /*Half of the field of regard value*/
+
+                var nadirAngleRad = nadirAngle * Math.PI / 180; /*The Nadir Angle in Radians*/
+
+                var angularRadEarth = (180 - maxEarthCentAngDeg - 90).toFixed(4); /*The angular radius of the Earth in degrees*/
+
+                var sinNadirAngRad = Math.sin(nadirAngleRad); /*The sine of the Nadir angle in radians*/
+                var sinNadirAngDeg = (sinNadirAngRad * (180 / Math.PI)).toFixed(4); /*The sine of the Nadir angle in degrees*/
+                var sinAngRadEarthRad = Math.sin(angularRadEarth); /*The sine of the Angular Radius of Earth in radians*/
+                var sinAngRadEarthDeg = (sinAngRadEarthRad * (180 / Math.PI)).toFixed(4); /*The sine of the Angular Radius of Earth in degrees*/
+                /*var grazingAngRad = (Math.acos(sinNadirAngRad / sinAngRadEarthRad));
+                var grazingAngDeg = (grazingAngRad * (180 / Math.PI)).toFixed(4);*/
+
+                /*NEED AN IF STATEMENT: IF TARGET ANGLE IS LESS THAN GRAZING ANGLE, SET TARGET ANGLE AT 90 DEGREES*/
+
+                var targetAngle = Math.asin(((sinNadirAngRad / earthRadius)) * semimajor); /*The sine of the Target Angle in radians*/
+                var targetAngleDeg = 180 - (targetAngle * (180 / Math.PI)).toFixed(4); /*The sine of the Target Angle in degrees, must be greater than 90 and less than 180*/
+                var EarthCentAngle = (180 - targetAngleDeg - nadirAngle).toFixed(4); /*The Earth Central Angle*/
+                var arcLength = ((EarthCentAngle / 360) * earthCircum).toFixed(4);
+                var regardArea = (Math.PI * Math.pow((arcLength / 2), 2)).toFixed(4);
+                var maxTimeCoverage = (arcLength / orbitalV).toFixed(2);
+                var numbSat4FullCov = Math.round(earthCircum / arcLength);
+                var x1 = 15;
+                var y1 = -10;
+                var r = semimajor / 10;
+                var theta = inclination;
+                var x2 = Math.round(x1 + r * Math.cos(Math.PI * theta / 180.0));
+                var y2 = Math.round(y1 + r * Math.sin(Math.PI * theta / 180.0));
+
+                /*Messages*/
+                //$("#msg1").text("Based on the inputs you gave, your satellite's altitude is " + alt + " km (a)" );
+                $("#msg1").text(semimajor + " km");
+                $("#msg2").text(regardArea + " km2");
+                $("#msg3").text(orbitalV + " km/s or " + orbitalVmph + " mph");
+                $("#msg4").text(oPeriod + " s or " + ((oPeriod / 60).toFixed(2)) + " min");
+                $("#msg5").text(maxEarthCentAngDeg + " degrees");
+                $("#msg6").text(nadirAngle + " degrees");
+                $("#msg7").text(angularRadEarth + " degrees");
+                $("#msg8").text(targetAngleDeg + " degrees");
+                $("#msg9").text(EarthCentAngle + " degrees");
+                $("#msg10").text(arcLength + " km");
+                $("#msg11").text(maxTimeCoverage + " s");
+                $("#msg12").text(numbSat4FullCov + " satellites");
+                $("#msg13").text("x2 is " + x2 + " and y2 is " + y2);
+                $("#x2").text(x2);
+                $("#y2").text(y2);
+
+            });
+
+        });
+
+        /*Adding fancy spinners to the user defined variables*/
+        /*	$(function() {
+                    $("#GM").spinner();
+                });*/
+        $(function() {
+            $("#eccentricity").spinner();
+        });
+        $(function() {
+            $("#altitude").spinner();
+        });
+        $(function() {
+            $("#inclination").spinner();
+        });
+        $(function() {
+            $("#longAscNode").spinner();
+        });
+        $(function() {
+            $("#argOfPeriapsis").spinner();
+        });
+        $(function() {
+            $("#trueAnomaly").spinner();
+        });
+
+        $(function() {
+            $("#regard").spinner();
+        });
+        $(function() {
+            $("#overlap").spinner();
+        });
+        $(function() {
+            $("#latitude").spinner();
+        });
+        $(function() {
+            $("#longitude").spinner();
+        });
+    </script>
+
+    <!--
+    Error Styling
+-->
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+        }
+
+        input.error {
+            background-color: rgb(255, 169, 169);
+            border: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <!--Light/Dark Switch-->
+        <div class="theme-switch-wrapper"><em>Light</em> <label class="theme-switch" for="checkbox"> <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label> <em>Dark</em> </div>
+        <!--End Light/Dark Switch-->
+
+        <!--Button to take user to lat/long ECEF converter tool-->
+        <a class="llhxyz">
+            <a id="llhxyz" href="llhxyz.html">LatLong ECEF Converter</a>
+        </a>
+        <!--End lat/long ECEF button-->
+
+        <!--Main Content organized via flex-container, includes right side bar, globe and left sidebar-->
+        <div id="ephemeris" class="flex-container">
+
+            <!--Right Side Bar-->
+            <!--<div id=rightSidebar class="flex-box sidebar">-->
+            <div id=leftSidebar class="sidebar left">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <form id="orbit">
+
+                    <section class="tooltip">
+                        <span class="ephemeris ">Gravitational Constant</span>
+
+                        <!--            <input type="number" name="GM" id="GM" class="ephemeris" min="0" max="999999999999999" value="398600.4418" step=".0001"><span> km3s-2</span>-->
+                        <span class="tooltiptext">
+                            <p>The standard gravitational parameter μ of a celestial body is the product of the gravitational constant G (In SI units its value is approximately 6.674×10−11 m3⋅kg−1⋅s−2) and the mass M of the body. For Earth, it is approximately 398600.4418 km3s-2</p>
+                        </span>
+                    </section>
+
+                    <section class="tooltip">
+                        <label for="eccentricity" class="ephemeris ">Eccentricity (e)<br></label>
+                        <input type="number" name="eccentricity" id="eccentricity" class="ephemeris inputField" min="0" max="1" value="0" step=".01">
+                        <span class="tooltiptext eccentricity">
+                            <p>The dimensionless parameter that determines the amount by which a astronomical body's orbit around another body deviates from a perfect circle. A value of 0 is a circular orbit, values between 0 and 1 form an elliptic orbit, 1 is a parabolic escape orbit, and greater than 1 is a hyperbola.</p>
+                            <figure><img src="../images/Binary_system_orbit_q3_e0.gif" alt="Binary System Orbit with e=0">
+                                <figcaption>Eccentricity of Zero</figcaption>
+                            </figure>
+                            <figure><img src="../images/Binary_system_orbit_q3_e0.5.gif" alt="Binary System Orbit with e=0.5">
+                                <figcaption>Eccentricity of 0.5</figcaption>
+                            </figure>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="semimajor" class="ephemeris">Altitude<br></label>
+                        <input type="number" name="altitude" id="altitude" class="ephemeris inputField" min="0.01" max="1000000" value="340" step=".01"><span> km</span>
+                        <span class="tooltiptext">
+                            <p>The altitude of the spacecraft over the surface of the planet</p>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="inclination" class="ephemeris">Inclination (i)<br></label>
+                        <input type="number" name="inclination" id="inclination" class="ephemeris inputField" min="-90" max="90" value="15" step=".01"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>Orbital inclination measures the tilt of an object's orbit around a celestial body. It is expressed as the angle between a reference plane and the orbital plane or axis of direction of the orbiting object.</p>
+
+                            <p>For a satellite orbiting the Earth directly above the equator, the plane of the satellite's orbit is the same as the Earth's equatorial plane, and the satellite's orbital inclination is 0°. If the orbit swung between 20° north latitude and 20° south latitude, then its orbital inclination would be 20°.</p>
+                            <figure>
+                                <img src="../images/orbital_inclination.png" alt="Inclination" style="width: 27.7em">
+                            </figure>
+                            <figcaption>Inclination of an Orbit</figcaption>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="longAscNode" class="ephemeris">Longitude of the ascending node (Ω)<br></label>
+                        <input type="number" name="longAscNode" id="longAscNode" class="ephemeris inputField" min="-90" max="90" value="15" step=".01"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>The angle from a reference direction, called the origin of longitude, to the direction of the ascending node, measured in a reference plane. The ascending node is the point where the orbit of the object passes through the plane of reference, as seen in the below image.</p>
+                            <figure>
+                                <img src="../images/OrbitalElements.png" alt="Orbital Elements" style="width: 27.7em">
+                            </figure>
+                            <figcaption>Longitude of the Ascending Node</figcaption>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="argOfPeriapsis" class="ephemeris">Argument of periapsis (ω)<br></label>
+                        <input type="number" name="argOfPeriapsis" id="argOfPeriapsis" class="ephemeris inputField" min="-90" max="90" value="15" step=".01"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>The orientation of the ellipse in the orbital plane, as an angle measured from the ascending node to the periapsis. An argument of periapsis of 0° means that the orbiting body will be at its closest approach to the central body at the same moment that it crosses the plane of reference from south to north. An argument of periapsis of 90° means that the orbiting body will reach periapsis at its northmost distance from the plane of reference.</p>
+                            <figure>
+                                <img src="../images/OrbitalElements.png" alt="Orbital Elements" style="width: 27.7em">
+                            </figure>
+                            <figcaption>Argument of Periapsis</figcaption>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="trueAnomaly" class="ephemeris">True Anomaly (θ)<br></label>
+                        <input type="number" name="trueAnomaly" id="trueAnomaly" class="ephemeris inputField" min="-90" max="90" value="15" step=".01"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>Angle between the direction of periapsis and the current position of the body, as seen from the main focus of the ellipse (the point around which the object orbits).</p>
+                            <figure>
+                                <img src="../images/Eccentric_and_True_Anomaly.svg.png" alt="Eccentric and True Anomaly">
+                            </figure>
+                            <figcaption>The true anomaly of point P is the angle f. The center of the ellipse is point C, and the focus is point F</figcaption>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="epochDate" class="ephemeris">Epoch Date<br></label>
+                        <input type="date" name="epochDate" id="epochDate" class="ephemeris inputField" value="2020-08-05">
+                        <label for="epochTime" class="ephemeris">time </label><input type="time" name="epochTime" id="epochTime" class="ephemeris inputField" value="16:32:55">
+                        <span class="tooltiptext">
+                            <p>Orbit epoch is the time at which the established orbital elements are true.</p>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="regard" class="capabilities">Sensor Field of Regard<br></label>
+                        <input type="number" name="regard" id="regard" class="capabilities inputField" min="-120" max="120" value="30" step=".01"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>The angle at which the spacecraft can regard the surface of the planet.</p>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="overlap" class="capabilities">Sensor Overlap<br></label>
+                        <input type="number" name="overlap" id="overlap" class="capabilities inputField" min="-90" max="90" value="5" step=".01"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>The degrees of overlap required of the constellation.</p>
+                        </span>
+                    </section>
+
+                    <br>
+
+                    <section class="tooltip">
+                        <label for="latitude" class="capabilities">Sensor Latitude<br></label>
+                        <input type="number" name="latitude" id="latitude" class="capabilities inputField" min="-90" max="90" value="30.2517" step=".0001"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>The degrees of latitude of a satellite's nadir. To be used as a test</p>
+                        </span>
+                        <br>
+                        <label for="longitude" class="capabilities">Sensor Longitude<br></label>
+                        <input type="number" name="longitude" id="longitude" class="capabilities inputField" min="-180" max="180" value="-74.0275" step=".0001"><span> degrees</span>
+                        <span class="tooltiptext">
+                            <p>The degrees of longitude of a satellite's nadir. To be used as a test</p>
+                        </span>
+                    </section>
+
+
+                    <br>
+                    <br>
+                    <section class="submit">
+                        <input type="submit" value="Submit" name="submit" id="submitme">
+                    </section>
+                </form>
+
+            </div>
+            <div id="main">
+                <button class="openbtn" onclick="openNav()">&#8680; TLE Form</button></div>
+
+
+
+            <!--------------------------------------------------------
+-                           Globe
+--------------------------------------------------------->
+            <!--Main Menu-->
+            <nav class="navbar navbar-expand-md fixed-top">
+                <!--Branding icon and text-->
+                <a class="navbar-brand" href="/home/StarField.html">
+                    <h2><img src="../images/orbits.gif" width="60" height="50" class="d-inline-block align-top" alt="">
+                        Orbitology</h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!--Main menu content-->
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="navbar-nav mr-auto">
+                        <!--Layers-->
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#layers" role="button">
+                                <span class="fas fa-list" aria-hidden="true"></span>
+                                <span class="d-md-none d-lg-inline" aria-hidden="true">Layers</span>
+                            </a>
+                        </li>
+                        <!--Markers-->
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#markers" role="button">
+                                <span class="fas fa-map-marker-alt" aria-hidden="true"></span>
+                                <span class="d-md-none d-lg-inline" aria-hidden="true">Markers</span>
+                            </a>
+                        </li>
+                        <!--Settings-->
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#settings" role="button">
+                                <span class="fas fa-cog" aria-hidden="true"></span>
+                                <span class="d-md-none d-lg-inline" aria-hidden="true">Settings</span>
+                            </a>
+                        </li>
+                        <!--About-->
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="collapse" href="#about" role="button">
+                                <span class="fas fa-question-circle" aria-hidden="true"></span>
+                                <span class="d-md-none d-lg-inline" aria-hidden="true">About</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!--Search Box-->
+                    <form id="search" class="form-inline">
+                        <input id="searchText" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" data-bind="value: searchText, valueUpdate: 'keyup'" />
+                        <button id="searchButton" class="btn btn-outline-success" data-bind="click: $root.performSearch">
+                            <span class="fas fa-search" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <!-- Use container-fluid for 100% width and set padding to 0 -->
+            <main role="main" class="container-fluid p-0">
+
+                <!-- WorldWindow -->
+                <div id="globe" class="globe p-0">
+                    <!--.d-block ensures the size is correct (prevents a scrollbar from appearing)-->
+                    <canvas id="globe-canvas" class="d-block">
+                        Try Chrome or FireFox.
+                    </canvas>
+                </div>
+                <!--WorldWindow Tools-->
+                <div id="tools" class="globe-overlay noninteractive">
+                    <!-- Add Marker button and palette -->
+                    <div class="btn-group interactive p-3">
+                        <button type="button" class="btn btn-primary btn-sm globe-button p-0" data-bind="click: $root.armDropMarker">
+                            <span class="fas fa-plus" aria-hidden="true"></span>
+                            <img width="30px" height="28px;" data-bind="attr:{src: $root.selectedMarkerImage}" />
+                        </button>
+                        <button type="button" id="marker-palette" class="btn btn-primary btn-sm globe-button dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Markers Dropdown</span>
+                        </button>
+                        <!-- Bind the list to the 'markerPalette' observableArray -->
+                        <ul id="marker-palette" class="dropdown-menu globe-dropdown" style="left: initial; min-width: 30px" data-bind="foreach: markerPalette">
+                            <li data-bind="click: $root.selectedMarkerImage">
+                                <a><img width="30px" height="30px;" data-bind="attr:{src: $data}, click: $root.armDropMarker" /></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--WorldWindow Panels-->
+                <div class="globe-overlay noninteractive">
+                    <div class="card-columns">
+                        <!--Layers-->
+                        <div id="layers" class="collapse">
+                            <div class="card globe-card interactive">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <span class="fas fa-list" aria-hidden="true"></span>
+                                        Layers
+                                        <button type="button" class="close pull-right" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button></h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: overlayLayers}"></div>
+                                    <hr />
+                                    <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: baseLayers}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Markers-->
+                        <div id="markers" class="collapse">
+                            <div class="card globe-card interactive">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <span class="fas fa-map-marker-alt" aria-hidden="true"></span>
+                                        Markers
+                                        <button type="button" class="close pull-right" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button></h5>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Bind the list to the 'markers' observableArray -->
+                                    <ul id="markers-list" class="list-group" data-bind="foreach: $root.markers">
+                                        <li class="list-group-item list-group-item-action p-0">
+                                            <div class="btn-group" role="group">
+                                                <!-- Goto Button -->
+                                                <button type="button" class="btn btn-light" data-bind="click: $root.gotoMarker">
+                                                    <span><img width="16px" height="16px" data-bind="attr:{src: $data.attributes.imageSource}" /> </span>
+                                                    <span data-bind="text: $data.label"></span>
+                                                </button>
+                                                <!-- Edit Button -->
+                                                <button type="button" class="btn btn-light fas fa-edit" data-bind="click: $root.editMarker"></button>
+                                                <!-- Delete Button -->
+                                                <button type="button" class="btn btn-light fas fa-trash" data-bind="click: $root.removeMarker"></button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Settings-->
+                        <div id="settings" class="collapse">
+                            <div class="card globe-card interactive">
+                                <div class="card-header">
+                                    <h5 class="card-title">
+                                        <span class="fas fa-cog" aria-hidden="true"></span>
+                                        Settings
+                                        <button type="button" class="close pull-right" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button></h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: settingLayers}"></div>
+                                    <hr />
+                                    <div class="list-group" data-bind="template: { name: 'layer-list-template', foreach: debugLayers}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/html" id="layer-list-template">
+                        <button type="button" class="list-group-item list-group-item-action" data-bind="click: $root.toggleLayer, css: { active: $data.enabled }">
+                            <span data-bind="text: $data.displayName"></span>
+                        </button>
+                    </script>
+                </div>
+                <!--Search Preview Dialog-->
+                <div id="preview" class="hidden">
+                    <div id="previewDialog" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Search Results</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="modal-body-canvas pb-3" title="Preview">
+                                        <canvas id="preview-canvas" style="width: 100%; height: 100%;">
+                                            <h1>Your browser does not support HTML5 Canvas.</h1>
+                                        </canvas>
+                                    </div>
+                                    <div class="modal-body-table">
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert" data-bind="visible: showApiWarning">
+                                            MapQuest API key missing. Get a free key at
+                                            <a href="https://developer.mapquest.com/" class="alert-link" target="_blank">developer.mapquest.com</a>
+                                            and set the MAPQUEST_API_KEY variable to your key.
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-bind="template: { name: 'search-results-template', foreach: searchResults}"></tbody>
+                                        </table>
+                                        <script type="text/html" id="search-results-template">
+                                            <tr data-bind="click: $parent.previewSelection">
+                                                <td><span data-bind="text: $data.display_name"></span></td>
+                                                <td><span data-bind="text: $data.type"></span></td>
+                                            </tr>
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="enable: selected, click: gotoSelected">Go to</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main><!-- /.container-fluid -->
+
+            <!-- JavaScript placed at the end of the document so the page loads faster -->
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+            <script src="https://unpkg.com/worldwindjs@1.7.0/build/dist/worldwind.min.js"></script>
+            <script type="module" src="../js/app.js"></script>
+            <!--------------------------------------------------------
+-                       End Globe
+--------------------------------------------------------->
+
+            <div id=rightSidebar class="sidebar right">
+                <a href="javascript:void(0)" class="closebtnRight" onclick="closeNavRight()">&times;</a>
+
+                <section class="tooltip">
+                    <h4 name="semimajor" id="semimajor" class="ephemeris">Semimajor Axis: </h4>
+                    <span class="tooltiptext">
+                        <p>The sum of the periapsis and apoapsis distances divided by two. For classic two-body orbits, the semimajor axis is the distance between the centers of the bodies, not the distance of the bodies from the center of mass.</p>
+                        <figure>
+                            <img src="../images/Ellipse_semi-major_and_minor_axes.svg.png" alt="Semi-major axis" style="width: 27.7em">
+                        </figure>
+                        <figcaption>The semi-major (a) and semi-minor axis (b) of an ellipse</figcaption>
+                    </span>
+                    <span id="msg1" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="regard" id="regard" class="ephemeris">Field of Regard: </h4>
+                    <span class="tooltiptext">
+                        <p>The total area that a sensing system can perceive by pointing the sensor at the Earth, which is typically much larger than the sensor's FOV.</p>
+                        <figure>
+                            <img src="../images/fov.jpg" alt="Field of regard" style="width: 27.7em">
+                        </figure>
+                        <figcaption>Field of Regard</figcaption>
+                    </span>
+                    <span id="msg2" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="orbitalV" id="orbitalV" class="ephemeris">Orbital Velocity: </h4>
+                    <span class="tooltiptext">
+                        <p>The speed at which an astronomical body orbits around the barycenter of the mass of the parent body.</p>
+                    </span>
+                    <span id="msg3" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip" href="">
+                    <h4 name="oPeriod" id="oPeriod" class="ephemeris">Orbital Period: </h4>
+                    <span class="tooltiptext" img href="../images/261px-Orbital_motion x1.gif">
+                        <p>The time a given astronomical object takes to complete one orbit around another object.</p>
+                    </span>
+                    <span id="msg4" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="maxEarthCentAngDeg" id="maxEarthCentAngDeg" class="ephemeris">Maximum Earth Central Angle: </h4>
+                    <span class="tooltiptext">
+                        <p>The angle measured from the center of the Earth between the satelite's nadir and the outer horizon.</p>
+                    </span>
+                    <span id="msg5" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="nadirAngle" id="nadirAngle" class="ephemeris">Nadir Angle: </h4>
+                    <span class="tooltiptext">
+                        <p>The angle measured at the spacecraft from the subsatellite point (=nadir direction) to the target.</p>
+                    </span>
+                    <span id="msg6" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="angularRadEarth" id="angularRadEarth" class="ephemeris">Angular Radius of Earth: </h4>
+                    <span class="tooltiptext">
+                        <p>The angle measured at the spacecraft from the center of the Earth to the outer horizon.</p>
+                    </span>
+                    <span id="msg7" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="targetAngleDeg" id="targetAngleDeg" class="ephemeris">Target Angle: </h4>
+                    <span class="tooltiptext">
+                        <p>The angle measured at the target from the center of the Earth to the satellite.</p>
+                    </span>
+                    <span id="msg8" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="EarthCentAngle" id="EarthCentAngle" class="ephemeris">Earth Central Angle: </h4>
+                    <span class="tooltiptext">
+                        <p>The angle measured from the center of the Earth to the target and to the satellite.</p>
+                    </span>
+                    <span id="msg9" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="arcLength" id="arcLength" class="ephemeris">Diameter of the Field of Regard: </h4>
+                    <span class="tooltiptext">
+                        <p>The diameter of the area that a sensing system can perceive by pointing the sensor at the Earth.</p>
+                    </span>
+                    <span id="msg10" class="msg"></span>
+                </section>
+                <br>
+                <section class="tooltip">
+                    <h4 name="maxTimeCoverage" id="maxTimeCoverage" class="ephemeris">Max Time Coverage Per Pass: </h4>
+                    <span class="tooltiptext">
+                        <p>The maximum amount of time the satellite will be in view of a target per pass.</p>
+                    </span>
+                    <span id="msg11" class="msg"></span>
+                </section>
+                <br>
+
+
+                <br>
+                <span class="ephemeris">x2 is </span><br>
+                <span id="x2" class="msg"></span>
+                <br>
+                <span class="ephemeris">y2 is </span><br>
+                <span id="y2" class="msg"></span>
+                <br>
+
+
+                <!--
+		<section class="tooltip">
+            		<h4 name="numbSat4FullCov" id="numbSat4FullCov" class="ephemeris">Satellites: </h4>
+            		<span class="tooltiptext">The maximum amount of time the satellite will be in view of a target per pass.</span>
+			<span id="msg12" class="msg"></span>
+        	</section>
+	<br>
+-->
+
+                <!--<figure id="more">
+                    <img src="../images/DefOfAngularRelationships.jpg" alt="Angular Definitions " class="diagram">
+                    <figcaption>Definition of Angular Relationships Between Satellite, Target, and Earth's Center.</figcaption>
+                </figure>-->
+
+
+
+            </div>
+
+            <div id="mainRight">
+                <button class="openbtn" onclick="openNavRight()">&#8678; TLE Data</button></div>
+        </div>
+
+
+        <footer id="contact">
+            <h4>CONTACT</h4>
+            <address>
+                <p class="footer">Timothy B. Mudge @</p>
+                <p class="footer"> <a href="timothy.b.mudge.ctr@mail.mil">timothy.b.mudge.ctr@mail.mil</a></p>
+                <a href="../home/index.html">Links</a>
+            </address>
+
+        </footer>
+    </div>
+
+    <script src="../js/worldwind.min.js" type="text/javascript"></script>
+    <!--<script src="../helloWorldWind.js" type="text/javascript"></script>-->
+    <script data-main="StarField" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js"></script>
+
+
+    <!--Begin sidebar javascript-->
+    <script>
+        /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+        function openNav() {
+            document.getElementById("leftSidebar").style.width = "250px";
+            document.getElementById("main").style.marginRight = "250px";
+        }
+
+        /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+        function closeNav() {
+            document.getElementById("leftSidebar").style.width = "0";
+            document.getElementById("main").style.marginRight = "0";
+        }
+    </script>
+
+    <script>
+        /* Set the width of the sidebar to 250px and the right margin of the page content to 250px */
+        function openNavRight() {
+            document.getElementById("rightSidebar").style.width = "500px";
+            document.getElementById("mainRight").style.marginLeft = "500px";
+        }
+
+        /* Set the width of the sidebar to 0 and the right margin of the page content to 0 */
+        function closeNavRight() {
+            document.getElementById("rightSidebar").style.width = "0";
+            document.getElementById("mainRight").style.marginLeft = "0";
+        }
+    </script>
+
+    <!--End sidebar javascript-->
+</body>
+
+<!--<script src="../js/satellite.js"></script>-->
+
+<script>
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    toggleSwitch.addEventListener('change', switchTheme, false);
+</script></html>
