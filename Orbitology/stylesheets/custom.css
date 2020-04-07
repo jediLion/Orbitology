@@ -1,0 +1,287 @@
+:root {
+    --primary-color: #302AE6;
+    --secondary-color: #536390;
+    --tertiary-color: darkred;
+    --font-color: #424242;
+    --bg-color: #DEDEDE;
+    --heading-color: #292922;
+    --border-color: #373E8F;
+    --warning-color: darkred;
+    --input-field-border-color: aliceblue;
+    --input-field-bg-color: lightgray;
+    --input-field-font-color: #333333;
+    --ui-widget-bg-color: #c5c5c5;
+    --ui-widget-header-bg-color: #000000;
+    --ui-state-active-a-visited-font-color: #000000;
+    --ui-state-active-a-visited-bg-color: #25cff9;
+    --ui-button-ui-state-active-hover-border-color: #000000;
+    --ui-button-ui-state-active-hover-bg-color: #88a2bf;
+    --ui-button-ui-state-disabled-active-border-color: gray;
+    --ui-button-ui-state-disabled-active-bg-color: #ffffff;
+    --ui-button-ui-state-disabled-active-font-color: aliceblue;
+    --ui-button-icon-only-ui-icon-font-color: #f9b325;
+    --ui-widget-content-border-color: #333333;
+    --ui-widget-content-bg-color: white;
+    --ui-widget-content-font-color: #333333;
+    --flex-box-border-color: #f9b325;
+    --orbit-bg-color: white;
+    --converter-bg-color: white;
+    --converter-border-color: #373E8F;
+
+    --nav-link-color: rgba(83, 99, 144, .85);
+
+    --top-banner-bg-color: #b8b6b6;
+
+    --link: blue;
+    --link-active: #b045ac;
+    --link-hover: #00c;
+    --link-visited: purple;
+    --footer-bg-color: aliceblue;
+    --footer-font-color: darkblue;
+    --tooltip-bg-color: rgba(255, 232, 31, 0.9);
+
+    --tooltip-font-color: #536390;
+    --tooltip-bs-color: gray;
+    --files-li-a-hover-border-color: black;
+    --files-li-a-hover-font-color: aliceblue;
+    --files-li-a-hover-bg-color: rgba(128, 128, 128, 0.6);
+    --search-bg-color: rgba(128, 128, 128, 0.2);
+    --search-font-color: darkblue;
+    --search-border-color: black;
+
+    --image-color: invert(100%);
+}
+
+[data-theme="dark"] {
+    --primary-color: #9A97F3;
+    --secondary-color: aliceblue;
+    --tertiary-color: red;
+    --font-color: #f9b325;
+    --bg-color: #212121;
+    --heading-color: #818cab;
+    --border-color: #f9b325;
+    --warning-color: red;
+    --input-field-border-color: aliceblue;
+    --input-field-bg-color: #333333;
+    --input-field-font-color: aliceblue;
+    --ui-widget-bg-color: #242425;
+    --ui-widget-header-bg-color: #000000;
+    --ui-state-active-a-visited-font-color: #000000;
+    --ui-state-active-a-visited-bg-color: #25cff9;
+    --ui-button-ui-state-active-hover-border-color: #000000;
+    --ui-button-ui-state-active-hover-bg-color: gray;
+    --ui-button-ui-state-disabled-active-border-color: #c5c5c5;
+    --ui-button-ui-state-disabled-active-bg-color: #e4e5e6;
+    --ui-button-ui-state-disabled-active-font-color: aliceblue;
+    --ui-button-icon-only-ui-icon-font-color: #f9b325;
+    --ui-widget-content-border-color: #333333;
+    --ui-widget-content-bg-color: #333333;
+    --ui-widget-content-font-color: #333333;
+    --flex-box-border-color: #f9b325;
+    --orbit-bg-color: #525252;
+    --converter-bg-color: #525252;
+    --converter-border-color: #525252;
+
+    --nav-link-color: rgba(255, 255, 255, .85);
+
+    --button-default-border-color: #28a745;
+
+    --top-banner-bg-color: #404040;
+
+    --link: aquamarine;
+    --link-active: lightgoldenrodyellow;
+    --link-hover: green;
+    --link-visited: lightgreen;
+    --footer-bg-color: darkgreen;
+    --footer-font-color: lightblue;
+
+    --tooltip-bg-color: rgba(47, 79, 79);
+    --tooltip-font-color: lightcyan;
+
+    --tooltip-bs-color: lightslategray;
+    --files-li-a-hover-border-color: gray;
+    --files-li-a-hover-font-color: darkslateblue;
+    --files-li-a-hover-bg-color: lightgray;
+    --files-li-a-hover-bg-color: rgba(211, 211, 211, 0.6);
+    --search-bg-color: rgba(211, 211, 211, 0.5);
+    --search-font-color: aliceblue;
+    --search-border-color: white;
+
+    --image-color: none;
+}
+
+
+body {
+    /*Account for the navbar*/
+    padding-top: 3.5rem;
+}
+
+#globe-canvas {
+    width: 100%;
+    height: 99.5%;
+    touch-action: none;
+}
+
+.globe {
+    width: 100%;
+    height: calc(100vh - 3.5rem);
+    background-color: var(--bg-color);
+}
+
+.globe-overlay {
+    position: absolute;
+    top: 2.5rem;
+    
+}
+
+.globe-card {
+    background: var(--search-bg-color);
+}
+
+.globe-button {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.globe-dropdown {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/*Overwrites the distance from the top of the screen the cards begin from*/
+.card-header {
+    margin-top: 2rem;
+}
+
+/*Overwrites the top bar placement z-index*/
+.fixed-top {
+    z-index: 2000;
+    background-color: var(--top-banner-bg-color);
+    height: 8vh;
+}
+
+/*When the modal fills the screen it has no margin on top and bottom*/
+/*Centers the modal*/
+.modal-dialog {
+    margin: 0 auto;
+}
+
+/*Sets the maximum height of the entire modal to 100% of the screen height*/
+.modal-content {
+    max-height: 100vh;
+}
+
+/*Sets the maximum height of the modal body to 90% of the screen height*/
+.modal-body {
+    max-height: 90vh;
+}
+
+/*Sets the height of a modal's canvas to 30% or 200px*/
+.modal-body-canvas {
+    max-height: 200px;
+    height: 30vh;
+}
+
+/*Sets the height of a modal's canvas to 60% minus the height of a footer*/
+.modal-body-table {
+    max-height: calc(60vh - 71px);
+    overflow-y: auto;
+}
+
+
+
+/*Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .card-columns {
+        column-count: 1;
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .card-columns {
+        column-count: 2;
+    }
+
+    #globe-canvas {
+        width: 100%;
+        height: 96%;
+    }
+
+    .globe {
+        width: 100%;
+        height: calc(100vh - 3.5rem);
+    }
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .card-columns {
+        column-count: 3;
+    }
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    .card-columns {
+        column-count: 4;
+    }
+}
+
+.noninteractive {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    pointer-events: none;
+}
+
+.interactive {
+    -webkit-touch-callout: auto !important;
+    -webkit-user-select: auto !important;
+    -khtml-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    -o-user-select: auto !important;
+    pointer-events: auto !important;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*Overrides the marker library placement from _spacing.scss*/
+.p-3 {
+    position: relative;
+    padding: 2rem !important;
+    z-index: 2001;
+    top: 1vh;
+    left: -6vw;
+}
+
+/*Overrides .tooltip settings from _reset-text.scss*/
+.tooltip {
+    opacity: 100;
+    font-size: 1rem;
+
+}
+
+.tooltip:hover {
+    z-index: 5050;
+}
+
+.close {
+    color: var(--tertiary-color);
+}

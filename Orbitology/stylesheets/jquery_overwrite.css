@@ -1,0 +1,14 @@
+/* jquery_overwrite.css */
+
+/********************************************************************************************************
+* Description:  Secondary style sheet for jquery (Dark Theme)
+* Author:       Timothy Mudge
+********************************************************************************************************/
+
+
+.ui-widget-content {
+    border: 1px solid var(--ui-widget-content-border-color);
+    background: var(--ui-widget-content-bg-color);
+    color: var(--ui-widget-content-font-color);
+}
+

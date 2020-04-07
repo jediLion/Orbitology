@@ -1,0 +1,779 @@
+/* Mudge.css */
+
+/********************************************************************************************************
+* Description:  Primary style sheet for IT411.com
+* Author:       Timothy Mudge
+********************************************************************************************************/
+/* Adjust the styles for the body */
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,400italic,700|Sansita+One);
+
+:root {
+    --primary-color: #302AE6;
+    --secondary-color: #536390;
+    --tertiary-color: darkred;
+    --font-color: #424242;
+    --bg-color: #a8a6a0;
+    --heading-color: #292922;
+    --border-color: #373E8F;
+    --warning-color: darkred;
+    --input-field-border-color: aliceblue;
+    --input-field-bg-color: lightgray;
+    --input-field-font-color: #333333;
+    --ui-widget-bg-color: #c5c5c5;
+    --ui-widget-header-bg-color: #000000;
+    --ui-state-active-a-visited-font-color: #000000;
+    --ui-state-active-a-visited-bg-color: #25cff9;
+    --ui-button-ui-state-active-hover-border-color: #000000;
+    --ui-button-ui-state-active-hover-bg-color: #88a2bf;
+    --ui-button-ui-state-disabled-active-border-color: gray;
+    --ui-button-ui-state-disabled-active-bg-color: #ffffff;
+    --ui-button-ui-state-disabled-active-font-color: aliceblue;
+    --ui-button-icon-only-ui-icon-font-color: #f9b325;
+    --ui-widget-content-border-color: #333333;
+    --ui-widget-content-bg-color: white;
+    --ui-widget-content-font-color: #333333;
+    --flex-box-border-color: #f9b325;
+    --orbit-bg-color: white;
+    --converter-bg-color: white;
+    --converter-border-color: #373E8F;
+    --sidebar-bg-color: lightgray;
+    --nav-link-color: rgba(83, 99, 144, .85);
+
+    --top-banner-bg-color: #b8b6b6;
+
+    --link: blue;
+    --link-active: #b045ac;
+    --link-hover: #00c;
+    --link-visited: purple;
+    --footer-bg-color: aliceblue;
+    --footer-font-color: darkblue;
+    --tooltip-bg-color: rgba(245,245,245,0.9);
+
+    --tooltip-font-color: #536390;
+    --tooltip-bs-color: gray;
+    --files-li-a-hover-border-color: black;
+    --files-li-a-hover-font-color: aliceblue;
+    --files-li-a-hover-bg-color: rgba(128, 128, 128, 0.6);
+    --search-bg-color: rgba(128, 128, 128, 0.2);
+    --search-font-color: darkblue;
+    --search-border-color: black;
+
+    --image-color: invert(100%);
+    --tooltip-info-image: url("../images/information-icon-3.png");
+}
+
+[data-theme="dark"] {
+    --primary-color: #9A97F3;
+    --secondary-color: aliceblue;
+    --tertiary-color: red;
+    --font-color: #f9b325;
+    --bg-color: #212121;
+    --heading-color: #818cab;
+    --border-color: #f9b325;
+    --warning-color: red;
+    --input-field-border-color: aliceblue;
+    --input-field-bg-color: #333333;
+    --input-field-font-color: aliceblue;
+    --ui-widget-bg-color: #242425;
+    --ui-widget-header-bg-color: #000000;
+    --ui-state-active-a-visited-font-color: #000000;
+    --ui-state-active-a-visited-bg-color: #25cff9;
+    --ui-button-ui-state-active-hover-border-color: #000000;
+    --ui-button-ui-state-active-hover-bg-color: gray;
+    --ui-button-ui-state-active-hover-font-color: black;
+    --ui-button-ui-state-disabled-active-border-color: #c5c5c5;
+    --ui-button-ui-state-disabled-active-bg-color: #e4e5e6;
+    --ui-button-ui-state-disabled-active-font-color: aliceblue;
+    --ui-button-icon-only-ui-icon-font-color: #f9b325;
+    --ui-widget-content-border-color: #333333;
+    --ui-widget-content-bg-color: #333333;
+    --ui-widget-content-font-color: #333333;
+    --flex-box-border-color: #f9b325;
+    --orbit-bg-color: #525252;
+    --converter-bg-color: #525252;
+    --converter-border-color: #525252;
+    --sidebar-bg-color: #525252;
+    --nav-link-color: rgba(255, 255, 255, .85);
+
+    --button-default-border-color: #28a745;
+
+    --top-banner-bg-color: #404040;
+
+    --link: aquamarine;
+    --link-active: lightgoldenrodyellow;
+    --link-hover: green;
+    --link-visited: lightgreen;
+    --footer-bg-color: darkgreen;
+    --footer-font-color: lightblue;
+
+    --tooltip-bg-color: rgba(47, 79, 79);
+    --tooltip-font-color: lightcyan;
+
+    --tooltip-bs-color: lightslategray;
+    --files-li-a-hover-border-color: gray;
+    --files-li-a-hover-font-color: darkslateblue;
+    --files-li-a-hover-bg-color: lightgray;
+    --files-li-a-hover-bg-color: rgba(211, 211, 211, 0.6);
+    --search-bg-color: rgba(211, 211, 211, 0.5);
+    --search-font-color: aliceblue;
+    --search-border-color: white;
+
+    --image-color: none;
+    --tooltip-info-image: url("../images/information-icon-washout.png");
+}
+
+
+.header {
+    position: relative;
+    width: 100%;
+    height: 3em;
+}
+
+img.logo {
+    height: 70%;
+}
+
+img.logo:nth-of-type(1) {
+    position: absolute;
+    left: 2em;
+    height: 4em;
+}
+
+img.logo:nth-of-type(2) {
+    position: absolute;
+    right: 2em;
+    top: .01em;
+    height: 4em;
+}
+
+h1.logo {
+    padding: .1em;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+    font-size: 10px;
+}
+
+/* Adjust the styles for the headings */
+h1 {
+    color: var(--font-color);
+    text-align: center;
+}
+
+h2 {
+    color: var(--secondary-color);
+    text-align: left;
+}
+
+h3 {
+    color: var(--secondary-color);
+    text-align: left;
+}
+
+h4 {
+    display: inline;
+    color: var(--secondary-color);
+    text-align: left;
+}
+
+.viewReq {
+    position: relative;
+    top: .75em;
+    color: var(--warning-color);
+}
+
+#orbit.ephemeris {
+    padding: 3em;
+}
+
+.inputField {
+    border: 1px solid;
+    background: var(--input-field-bg-color);
+    color: var(--input-field-font-color);
+    padding: .25em;
+    border-color: var(--input-field-border-color);
+    margin: .1em;
+    border-radius: .35em;
+}
+
+.ui-widget {
+    background-color: var(--ui-widget-bg-color);
+}
+
+.ui-widget-header {
+    background-color: var(--ui-widget-header-bg-color);
+}
+
+.ui-state-active a,
+.ui-state-active a:link,
+.ui-state-active a:visited {
+    color: var(--ui-state-active-a-visited-font-color);
+    background: var(--ui-state-active-a-visited-bg-color);
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+    border: var(--ui-button-ui-state-active-hover-border-color);
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active {
+    border: 1px solid var(--ui-button-ui-state-disabled-active-border-color);
+    background: var(--ui-button-ui-state-disabled-active-bg-color);
+    color: var(--ui-button-ui-state-disabled-active-font-color);
+}
+
+.ui-button-icon-only .ui-icon {
+    color: var(--ui-button-icon-only-ui-icon-font-color);
+}
+
+.ui-widget-content {
+    border: 1px solid var(--ui-widget-content-border-color);
+    background: var(--ui-widget-content-bg-color);
+    color: var(--ui-widget-content-font-color);
+}
+
+/* Adjust the style of paragraphs */
+p {
+    color: var(--font-color);
+}
+
+.msg {
+    color: var(--font-color);
+}
+
+li {
+    color: var(--primary-color);
+}
+
+a:link {
+    color: var(--link);
+    font-size: 12px;
+}
+
+a:visited {
+    color: var(--link-visited);
+    font-size: 12px;
+}
+
+a:hover {
+    color: var(--link-hover);
+    font-size: 12px;
+    font-weight: 200;
+}
+
+a:active {
+    color: var(--link-active);
+    font-size: 12px;
+}
+
+.nav-link:visited,
+.nav-link:link,
+.nav-link {
+    color: var(--nav-link-color);
+    font: 1rem bold;
+}
+
+.d-md-none:visited,
+.d-md-none:link,
+.d-md-none {
+    color: var(--nav-link-color);
+    font: 1rem bold;
+}
+
+.nav-link:hover,
+.nav-link:active {
+    filter: brightness(75) font: 1rem bold;
+}
+
+.d-md-none:hover,
+.d-md-none:active {
+    filter: brightness(75) font: 1rem bold;
+}
+
+img {
+    display: block;
+    margin: auto;
+}
+
+figure {
+    flex: 0 0 100%#f9b325 width: 100em;
+    position: relative;
+    float: left;
+}
+
+figcaption {
+    caption-side: bottom;
+}
+
+#submitme {
+    border-radius: .5em;
+}
+
+#submitme:hover {
+    filter: brightness(75%);
+}
+
+#llhxyz {
+    position: absolute;
+    top: 4.25rem;
+    right: 0.75rem;
+    border: 2px;
+    font-size: 10px;
+    padding: 7px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: .25em;
+    z-index: 2000;
+}
+
+#llhxyz:link,
+#llhxyz:visited {
+    background-color: var(--ui-button-ui-state-disabled-active-bg-color);
+    color: var(--ui-state-active-a-visited-font-color);
+    border-color: var(--ui-button-ui-state-disabled-active-border-color);
+    filter: brightness(75%);
+}
+
+#llhxyz:hover,
+#llhxyz:active {
+    background-color: var(--ui-button-ui-state-active-hover-bg-color);
+    color: var(--ui-button-ui-state-active-hover-font-color);
+    border: var(--ui-button-ui-state-active-hover-border-color);
+    filter: brightness(100%);
+}
+
+.list-group-item:hover {
+    filter: brightness(75%);
+}
+
+.list-group-item {
+    border-radius: .5em;
+}
+
+.simulation {
+    margin-left: 50%;
+}
+
+#searchBox {
+    position: relative;
+    top: 3em;
+    z-index: 15;
+    opacity: 75%
+}
+
+#searchBox:hover {
+    opacity: 90%;
+}
+
+#searchBox:active {
+    opacity: 90%;
+}
+
+#searchButton {
+    border-radius: .5em;
+    height: 2.2em;
+}
+
+#searchButton:before {
+    content: "\00BB";
+    font-weight: bolder;
+}
+
+#searchButton:hover {
+    filter: brightness(75%);
+}
+
+.border {
+    border: solid .2em var(--border-color);
+    border-radius: .5em;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.flex-box {
+    padding: 0.25em;
+    margin: 0;
+    flex: 1 1 0;
+    position: relative;
+    border: solid var(--border-color);
+}
+
+.flex-box:first-of-type {
+    padding: 0.25em;
+    margin: 0;
+    flex: 0 1 auto;
+    width: 22em;
+    position: relative;
+    border: solid var(--border-color);
+}
+
+#orbit {
+    background: var(--orbit-bg-color);
+    width: auto;
+    padding: .5em;
+    margin: -.3em;
+}
+
+#converter {
+    background: var(--converter-bg-color);
+    width: auto;
+    padding: .5em;
+    border: solid var(--converter-border-color);
+    border-radius: .5em;
+}
+
+footer {
+    margin: .5em;
+    padding: .25em;
+    position: fixed;
+    bottom: 0;
+    float: right;
+    right: 0.01em;
+    background: var(--footer-bg-color);
+    opacity: 0.75;
+    border-radius: 1em;
+    z-index: 7;
+}
+
+footer:hover {
+    opacity: 1;
+}
+
+.footer {
+    margin: 2px;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    color: var(--tooltip-font-color);
+    padding: 0.2em;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 30em;
+    background-color: var(--tooltip-bg-color);
+    color: var(--tooltip-font-color);
+    text-align: center;
+    border-radius: .25em;
+    font-size: 0.75em;
+    box-shadow: 1px 1px 8px var(--tooltip-bs-color);
+    padding: 1em;
+    padding-top: 2.5em;
+    border: solid .125em;
+
+    /* Position the tooltip text*/
+    position: fixed;
+    top: 57%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*z-index: 1;*/
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:active .tooltiptext,
+.tooltip:hover .tooltiptext {
+    background-image: var(--tooltip-info-image);
+    background-position: left 1em top .25em;
+    background-repeat: no-repeat;
+    background-size: 2em;
+    visibility: visible;
+    /*position: absolute;*/
+    z-index: 3000;
+    overflow: hidden;
+}
+
+.tooltip span img {
+    float: left;
+    margin: 8px 8px 8px 8;
+}
+
+/*flexbox for eccentricity tooltip used to flex the images*/
+.eccentricity {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.eccentricity>figure {
+    width: 50%;
+}
+
+.eccentricity>figure>img {
+    width: 100%;
+}
+
+.eccentricity>p:first-child {
+  flex: 0 1 100%;
+}
+
+.angularRelationship {
+    overflow: hidden;
+    width: 35em;
+    margin: 0;
+}
+
+.diagram {
+    position absolute;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    filter: var(--image-color);
+}
+
+/* Canvas Styling */
+#canvasOne {
+    position: relative;
+    left: .1em;
+    right: .1em;
+    top: .1em;
+    z-index: 6;
+    width: 39vw;
+    height: 60vh;
+    background-color: black !important;
+}
+
+.earthBox {
+    position: absolute;
+    top: 12.8em;
+    right: 19.8em;
+    max-width: 50%;
+    overflow: hidden;
+}
+
+.earthBox img {
+    height: 15em;
+    max-width: initial;
+
+}
+
+
+
+#globe_fullScreen {
+    z-index: 30;
+    filter: invert(75);
+    opacity: 50%;
+    width: 3.5em;
+    position: relative;
+    top: -4.5em;
+    left: 45%;
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+}
+
+#globe_fullScreen:hover {
+    opacity: 90%;
+    filter: invert(90);
+}
+
+/*Simple css to style darkmode checkbox like a toggle switch*/
+.theme-switch-wrapper {
+    position: fixed;
+    z-index: 2002;
+    top: 1.4rem;
+    right: 20rem;
+    display: flex;
+    align-items: center;
+    line-height: 2em;
+    margin: .1em;
+    margin-bottom: .4em;
+    font-size: calc(1rem + 0.25vh);
+
+    em {
+        margin-left: 12px;
+        font-size: 1rem;
+    }
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 2vh;
+    position: relative;
+    width: 5vh;
+    margin-right: .5em;
+    margin-left: .5em;
+    margin-bottom: .1em;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #373E8F;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: .4vh;
+    left: .4vh;
+    content: "";
+    height: 1.25vh;
+    position: absolute;
+    transition: .4s;
+    width: 1.25vh;
+}
+
+input:checked + .slider {
+    background-color: #f9b325;
+    opacity: 0.7;
+}
+
+input:checked + .slider:hover {
+    opacity: 1;
+}
+
+input:checked + .slider:before {
+    transform: translateX(3vh);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/*Sidebar Menu*/
+.sidebar {
+    height: 90vh;
+    /* 95% Full-height */
+    width: 0;
+    /* 0 width - change this with JavaScript */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Stay on top */
+    top: .025rem;
+    background-color: var(--sidebar-bg-color);
+    /* Black*/
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 30px;
+    /* Place content 60px from the top */
+    transition: 0.6s;
+    /* 0.5 second transition effect to slide in the sidebar */
+    margin-top: 8vh;
+}
+
+.sidebar.left {
+    left: 0;
+}
+
+.sidebar.right {
+    right: 0;
+    border-left-color: var(--border-color);
+    border-left: .125rem;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+    position: absolute;
+    top: -1rem;
+    right: 5px;
+    font-size: 36px;
+
+}
+
+.sidebar.left .closebtn {
+    margin-left: 50px;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar.right .closebtnRight {
+    position: absolute;
+    top: -1rem;
+    left: 5px;
+    font-size: 36px;
+    margin-right: 60px;
+}
+
+/* The button used to open the sidebar */
+.openbtn {
+    font-size: 16px;
+    cursor: pointer;
+    background-color: var(--footer-bg-color);
+    color: var(--secondary-color);
+    padding: 10px 15px;
+    border: solid #2C2C2C;
+    border-radius: 5%;
+    margin-top: 30vh;
+    max-width: 6vw;
+    min-width: 5rem;
+    opacity: 75%;
+}
+
+.openbtn:hover {
+    transition: ease-in-out .4s;
+    transition-delay: .01s;
+    opacity: 100%;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .6s;
+    /* If you want a transition effect */
+
+}
+
+#mainRight {
+    transition: margin-right .6s;
+    /* If you want a transition effect */
+
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidebar {
+        padding-top: 15px;
+    }
+
+    .sidebar a {
+        font-size: 18px;
+    }
+}
+
+#contact {
+  padding: 5px 5px 5px 5px;
+  border-radius: 10px;
+  height: 38px;
+  width: 200px;
+  margin: 5px 1% 5px 1%;
+  float: left;
+  position: absolute;
+  transition: height 0.5s;
+  -webkit-transition: height 0.5s;
+  text-align: center;
+  overflow: hidden;
+}
+#contact:hover {
+  height: 120px;
+}
