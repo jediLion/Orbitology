@@ -1,0 +1,10 @@
+Orbitology Site
+
+To Run:
+- Naviate to 'orbitologysite' folder
+- Run 'python3 manage.py runserver'
+- Open webpage at: http://127.0.0.1:8000
+
+Requires:
+- Django 3.0.5
+- Python 3.6
