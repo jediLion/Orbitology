@@ -9,19 +9,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie-edge">
     <title>Orbitology</title>
-    <link href="../stylesheets/Mudge.css" rel="stylesheet">
-    <link rel="stylesheet" href="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.css">
-    <!--    <script src="../js/jquery-3.4.1.js"</script> -->
+    <link href="{% static 'stylesheets/Mudge.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.css' %}">
+    <!--    <script src="{% static 'js/jquery-3.4.1.js"</script> -->
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="../jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="../jquery-validation-1.19.1/dist/jquery.validate.min.js"></script>
-    <script src="../jquery-timepicker-1.3.5/jquery.timepicker.js"></script>
-    <link rel="stylesheet" href="../jquery-timepicker-1.3.5/jquery.timepicker.css" />
-    <link href="../stylesheets/jquery_overwrite.css" rel="stylesheet">
+    <script src="{% static 'jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery-validation-1.19.1/dist/jquery.validate.min.j' %}"></script>
+    <script src="{% static 'jquery-timepicker-1.3.5/jquery.timepicker.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'jquery-timepicker-1.3.5/jquery.timepicker.css' %}" />
+    <link href="{% static 'stylesheets/jquery_overwrite.css' %}" rel="stylesheet">
 
-    <script src="../utils.js" language="JavaScript" type="text/javascript">
+    <script src="{% static 'utils.js' %}" language="JavaScript" type="text/javascript">
     </script>
-    <script src="../geodesy.js" language="JavaScript" type="text/javascript">
+    <script src="{% static 'geodesy.js' %}" language="JavaScript" type="text/javascript">
     </script>
 
 
@@ -162,9 +162,9 @@
     <div id="wrapper">
 
         <div class="header">
-            <img class="logo" src="../images/smdc.png" alt="smdc logo">
+            <img class="logo" src="{% static 'images/smdc.png' %}" alt="smdc logo">
             <h1 class="logo">Latitude,Longitude,Height to/from ECEF (X,Y,Z)</h1>
-            <img class="logo" src="../images/orbits.gif" alt="orbitology logo">
+            <img class="logo" src="{% static 'images/orbits.gif' %}" alt="orbitology logo">
 
         </div>
         <br><br>
@@ -256,7 +256,7 @@
                                                             <h4 class="footer">Questions? Contact </h4>
                                                             <p class="footer">Timothy B. Mudge @</p>
                                                             <p class="footer"> <a href="timothy.b.mudge.ctr@mail.mil">timothy.b.mudge.ctr@mail.mil</a></p>
-                                                            <a href="../../index.html"></a>
+                                                            <a href="index.html"></a> <!-- Change this!!-->
                                                         </address>
 
                                                     </footer>
